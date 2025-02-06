@@ -1,4 +1,3 @@
-// app.js
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -11,8 +10,8 @@ import PasienController from './controllers/PasienController.js';
 import ReservasiController from './controllers/ReservasiController.js';
 import PoliController from './controllers/PoliController.js';
 import DokterController from './controllers/DokterController.js';
-
-
+import AntriController from './controllers/AntriController.js';
+import PembayaranController from './controllers/PembayaranController.js';  
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -32,7 +31,6 @@ app.use(express.json());
 /* ROUTES */
 
 // === ROUTES UNTUK PEGAWAI ===
-
 // Tampilkan daftar pegawai
 app.get('/', async (req, res) => {
   try {
@@ -68,71 +66,29 @@ app.get('/pegawai/:id', async (req, res) => {
   }
 });
 
-// Tampilkan form edit pegawai
-app.get('/pegawai/:id/edit', async (req, res) => {
-  try {
-    const pegawai = await PegawaiController.showPegawai(req.params.id);
-    res.render('pegawai/pegawai_edit', { pegawai });
-  } catch (error) {
-    res.status(500).send('Error saat mengambil data untuk edit.');
-  }
-});
-
-// Proses update pegawai
-app.post('/pegawai/:id/edit', async (req, res) => {
-  try {
-    await PegawaiController.editPegawai(req.params.id, req.body);
-    res.redirect('/');
-  } catch (error) {
-    res.status(500).send('Error saat mengupdate pegawai.');
-  }
-});
-
-// Proses hapus pegawai
-app.post('/pegawai/:id/delete', async (req, res) => {
-  try {
-    await PegawaiController.removePegawai(req.params.id);
-    res.redirect('/');
-  } catch (error) {
-    res.status(500).send('Error saat menghapus pegawai.');
-  }
-});
-
 // === ROUTES UNTUK PASIEN ===
+app.get('/pasien', PasienController.index);
+app.get('/pasien/new', PasienController.newForm);
+app.post('/pasien', PasienController.create);
+app.get('/pasien/:no_rm', PasienController.show);
+app.get('/pasien/:no_rm/edit', PasienController.editForm);
+app.post('/pasien/:no_rm/edit', PasienController.update);
+app.post('/pasien/:no_rm/delete', PasienController.delete);
 
-// Tampilkan daftar pasien
-app.get('/pasien', PasienController.index); // gunakan method 'index'
-
-// Tampilkan form tambah pasien
-app.get('/pasien/new', PasienController.newForm); // gunakan method 'newForm'
-
-// Proses tambah pasien baru
-app.post('/pasien', PasienController.create); // gunakan method 'create'
-
-// Tampilkan detail pasien (opsional)
-app.get('/pasien/:no_rm', PasienController.show); // tambahkan method 'show' di controller
-
-// Tampilkan form edit pasien
-app.get('/pasien/:no_rm/edit', PasienController.editForm); // gunakan method 'editForm'
-
-// Proses update pasien
-app.post('/pasien/:no_rm/edit', PasienController.update); // gunakan method 'update'
-
-// Proses hapus pasien
-app.post('/pasien/:no_rm/delete', PasienController.delete); // gunakan method 'delete'
-
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
-
+// === ROUTES UNTUK PEMBAYARAN ===
+app.get('/pembayaran', PembayaranController.index);  // Menampilkan daftar pembayaran
+app.get('/pembayaran/new', PembayaranController.createForm);  // Tampilkan form tambah pembayaranapp.post('/pembayaran', PembayaranController.create);  // Menambahkan pembayaran
+app.get('/pembayaran/:id/edit', PembayaranController.editForm);  // Form edit pembayaran
+app.post('/pembayaran/:id/edit', PembayaranController.update);  // Update pembayaran
+app.post('/pembayaran/:id/delete', PembayaranController.delete);  // Hapus pembayaran
 
 // === ROUTES UNTUK RESERVASI ===
-app.get('/reservasi', ReservasiController.index);               // Tampilkan daftar reservasi
-app.get('/reservasi/new', ReservasiController.newForm);           // Tampilkan form tambah reservasi
-app.post('/reservasi', ReservasiController.create);               // Proses tambah reservasi
-app.get('/reservasi/:id/edit', ReservasiController.editForm);      // Tampilkan form edit reservasi
-app.post('/reservasi/:id/edit', ReservasiController.update);       // Proses update reservasi
-app.post('/reservasi/:id/delete', ReservasiController.delete);     // Proses hapus reservasi
+app.get('/reservasi', ReservasiController.index); 
+app.get('/reservasi/new', ReservasiController.newForm);           
+app.post('/reservasi', ReservasiController.create);               
+app.get('/reservasi/:id/edit', ReservasiController.editForm);      
+app.post('/reservasi/:id/edit', ReservasiController.update);       
+app.post('/reservasi/:id/delete', ReservasiController.delete);     
 
 // === ROUTES UNTUK POLI ===
 app.get('/poli', PoliController.index);
@@ -143,23 +99,22 @@ app.get('/poli/:id_poli/edit', PoliController.editForm);
 app.post('/poli/:id_poli/edit', PoliController.update);
 app.post('/poli/:id_poli/delete', PoliController.delete);
 
-
-// === ROUTES UNTUK POLI ===
-
-// Daftar dokter
+// === ROUTES UNTUK DOKTER ===
 app.get('/dokter', DokterController.index);
-
-// Form tambah dokter
 app.get('/dokter/new', DokterController.newForm);
-
-// Proses tambah dokter
 app.post('/dokter', DokterController.create);
-
-// Form edit dokter
 app.get('/dokter/:id_dokter/edit', DokterController.editForm);
-
-// Proses update dokter
 app.post('/dokter/:id_dokter/edit', DokterController.update);
-
-// Proses hapus dokter
 app.post('/dokter/:id_dokter/delete', DokterController.delete);
+
+// === ROUTES UNTUK ANTRI ===
+app.get('/antri', AntriController.index);
+app.get('/antri/new', AntriController.newForm);
+app.post('/antri', AntriController.create);
+app.get('/antri/:no_antrian', AntriController.show);
+app.post('/antri/:no_antrian/edit', AntriController.update);
+app.post('/antri/:no_antrian/delete', AntriController.delete);
+
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});

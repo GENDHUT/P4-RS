@@ -1,13 +1,17 @@
-// models/Reservasi.js
 import pool from '../config/db.js';
 
 class Reservasi {
-  // Mengambil semua data reservasi dengan nama dokter dan poli
+  // Mengambil semua data reservasi dengan nama pasien, dokter, dan poli
   static async getAll() {
     const sql = `
-      SELECT r.id_reservasi, r.no_rm, r.id_poli, r.id_dokter, r.no_antrian,
-             p.nama_poli, d.nama_dokter
+      SELECT 
+        r.id_reservasi, 
+        ps.nama_pasien, 
+        p.nama_poli, 
+        d.nama_dokter, 
+        r.no_antrian
       FROM reservasi r
+      LEFT JOIN pasien ps ON r.no_rm = ps.no_rm
       LEFT JOIN poli p ON r.id_poli = p.id_poli
       LEFT JOIN dokter d ON r.id_dokter = d.id_dokter
     `;
@@ -15,12 +19,17 @@ class Reservasi {
     return rows;
   }
 
-  // Mengambil data reservasi berdasarkan id_reservasi dengan nama dokter dan poli
+  // Mengambil data reservasi berdasarkan id_reservasi
   static async getById(id_reservasi) {
     const sql = `
-      SELECT r.id_reservasi, r.no_rm, r.id_poli, r.id_dokter, r.no_antrian,
-             p.nama_poli, d.nama_dokter
+      SELECT 
+        r.id_reservasi, 
+        ps.nama_pasien, 
+        p.nama_poli, 
+        d.nama_dokter, 
+        r.no_antrian
       FROM reservasi r
+      LEFT JOIN pasien ps ON r.no_rm = ps.no_rm
       LEFT JOIN poli p ON r.id_poli = p.id_poli
       LEFT JOIN dokter d ON r.id_dokter = d.id_dokter
       WHERE r.id_reservasi = ?

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detail Pasien</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="card shadow-lg p-4">
+      <h2 class="text-center mb-4">Detail Pasien</h2>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>No RM:</strong> <%= pasien.no_rm %></li>
+        <li class="list-group-item"><strong>KTP:</strong> <%= pasien.ktp %></li>
+        <li class="list-group-item"><strong>Nama Pasien:</strong> <%= pasien.nama_pasien %></li>
+        <li class="list-group-item"><strong>Tanggal Lahir:</strong> <%= pasien.tgl_lahir.toISOString().substring(0,10) %></li>
+        <li class="list-group-item"><strong>Alamat:</strong> <%= pasien.alamat %></li>
+        <li class="list-group-item"><strong>Tinggi:</strong> <%= pasien.tinggi %> cm</li>
+        <li class="list-group-item"><strong>Berat:</strong> <%= pasien.berat %> kg</li>
+        <li class="list-group-item"><strong>Ibu Kandung:</strong> <%= pasien.ibu_kandung %></li>
+      </ul>
+      <a href="/pasien" class="btn btn-secondary mt-3 w-100">Kembali ke Daftar Pasien</a>
+    </div>
+  </div>
+  
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

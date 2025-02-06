@@ -1,4 +1,3 @@
-<!-- views/reservasi/index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,47 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body> 
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MyApp</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/pasien">Pasien</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/dokter">Dokter</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/poli">Poli</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/reservasi">Reservasi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/antri">Antri</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <div class="container mt-5">
     <h1 class="mb-4">Data Reservasi</h1>
     <div class="mb-3">
@@ -19,7 +58,7 @@
         <thead class="table-dark">
           <tr>
             <th>ID Reservasi</th>
-            <th>No RM</th>
+            <th>Nama Pasien</th>
             <th>Nama Poli</th>
             <th>Nama Dokter</th>
             <th>No Antrian</th>
@@ -30,7 +69,7 @@
           <% reservasis.forEach(function(r) { %>
             <tr>
               <td><%= r.id_reservasi %></td>
-              <td><%= r.no_rm %></td>
+              <td><%= r.nama_pasien %></td>
               <td><%= r.nama_poli %></td>
               <td><%= r.nama_dokter %></td>
               <td><%= r.no_antrian %></td>

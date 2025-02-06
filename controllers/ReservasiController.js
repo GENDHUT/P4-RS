@@ -3,6 +3,7 @@ import Reservasi from '../models/Reservasi.js';
 import Pasien from '../models/Pasien.js';
 import Dokter from '../models/Dokter.js';
 import Poli from '../models/Poli.js';
+import Antri from '../models/Antri.js';
 
 class ReservasiController {
   // Tampilkan daftar reservasi dengan nama dokter dan poli
@@ -19,18 +20,15 @@ class ReservasiController {
   // Tampilkan form tambah reservasi dengan data pasien dari tabel pasien
   static async newForm(req, res) {
     try {
-      // Ambil list pasien dari tabel pasien
       const pasienList = await Pasien.getAll();
-      // Ambil list poli dari tabel poli
       const poliList = await Poli.getAll();
-      // Ambil list dokter dari tabel dokter
       const dokterList = await Dokter.getAll();
-      
-      // Pass data to the view
-      res.render('reservasi/new', { pasienList, poliList, dokterList });
+      const antrianList = await Antri.getAll(); // Ambil data antrian
+
+      res.render('reservasi/new', { pasienList, poliList, dokterList, antrianList });
     } catch (err) {
-      console.error("Error retrieving pasien, poli, or dokter:", err);
-      res.status(500).send("Error saat mengambil data pasien, poli, atau dokter.");
+      console.error("Error retrieving data:", err);
+      res.status(500).send("Error saat mengambil data.");
     }
   }
 
@@ -53,7 +51,19 @@ class ReservasiController {
       if (results.length === 0) {
         return res.status(404).send("Data tidak ditemukan");
       }
-      res.render('reservasi/edit', { reservasi: results[0] });
+
+      const pasienList = await Pasien.getAll();
+      const poliList = await Poli.getAll();
+      const dokterList = await Dokter.getAll();
+      const antrianList = await Antri.getAll(); // Ambil data antrian
+
+      res.render('reservasi/edit', { 
+        reservasi: results[0], 
+        pasienList, 
+        poliList, 
+        dokterList, 
+        antrianList 
+      });
     } catch (err) {
       console.error("Error retrieving reservasi by ID:", err);
       res.status(500).send("Error saat mengambil data reservasi.");

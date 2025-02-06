@@ -51,9 +51,17 @@
         </select>
       </div>
       
+            <!-- Pilihan No_antri -->
       <div class="mb-3">
-        <label for="no_antrian" class="form-label">No Antrian</label>
-        <input type="number" class="form-control" id="no_antrian" name="no_antrian" required>
+        <label for="no_antrian" class="form-label">Nomor Antrian</label>
+        <select class="form-select" id="no_antrian" name="no_antrian" required>
+          <option value="">Pilih Nomor Antrian</option>
+          <% antrianList.forEach(function(a) { %>
+            <option value="<%= a.no_antrian %>">
+              <%= a.no_antrian %> - Tanggal: <%= a.tanggal %>
+            </option>
+          <% }); %>
+        </select>
       </div>
       
       <button type="submit" class="btn btn-primary">Simpan</button>

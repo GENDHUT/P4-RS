@@ -27,6 +27,17 @@ class Dokter {
     return rows[0];
   }
 
+  // Ambil dokter berdasarkan ID Pegawai
+  static async getByPegawaiId(id_pegawai) {
+    const sql = `
+      SELECT *
+      FROM dokter
+      WHERE id_pegawai = ?
+    `;
+    const [rows] = await db.query(sql, [id_pegawai]);
+    return rows;
+  }
+
   // Tambah dokter baru
   static async create(data) {
     const { id_pegawai, id_poli, nama_dokter, status_dokter } = data;

@@ -1,5 +1,7 @@
 // controllers/PegawaiController.js
 import Pegawai from '../models/Pegawai.js';
+import Dokter from '../models/Dokter.js';
+
 
 class PegawaiController {
   // Tampilkan semua pegawai
@@ -14,9 +16,15 @@ class PegawaiController {
   }
 
   // Tampilkan detail pegawai berdasarkan ID
+  // Tampilkan detail pegawai berdasarkan ID beserta data dokter yang terhubung
   static async showPegawai(id) {
     try {
       const pegawai = await Pegawai.getById(id);
+      if (pegawai) {
+        // Ambil data dokter berdasarkan id_pegawai
+        const dokterData = await Dokter.getByPegawaiId(id);
+        pegawai.dokters = dokterData; // Menambahkan properti dokters pada objek pegawai
+      }
       return pegawai;
     } catch (error) {
       console.error(`Error saat mengambil pegawai dengan ID ${id}:`, error);
@@ -54,5 +62,6 @@ class PegawaiController {
     }
   }
 }
+
 
 export default PegawaiController;

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Pembayaran</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="mb-4">Daftar Pembayaran</h1>
+    
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>ID Pembayaran</th>
+          <th>No Antrian</th>
+          <th>Tipe Pembayaran</th>
+          <th>Nama Instansi</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% pembayaran.forEach(function(pembayaran) { %>
+          <tr>
+            <td><%= pembayaran.id_pembayaran %></td>
+            <td><%= pembayaran.no_antrian %></td>
+            <td><%= pembayaran.tipe_pembayaran %></td>
+            <td><%= pembayaran.nama_instansi %></td>
+            <td>
+              <a href="/pembayaran/<%= pembayaran.id_pembayaran %>/edit" class="btn btn-warning btn-sm">Edit</a>
+              <form action="/pembayaran/<%= pembayaran.id_pembayaran %>/delete" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <a href="/pembayaran/new" class="btn btn-primary mt-3">Tambah Pembayaran</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

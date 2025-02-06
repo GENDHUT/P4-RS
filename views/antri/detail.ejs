@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detail Antri</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="card shadow-lg p-4">
+      <h2 class="text-center mb-4">Detail Antri</h2>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>No Antrian:</strong> <%= antri.no_antrian %></li>
+        <li class="list-group-item"><strong>Tanggal:</strong> <%= antri.tanggal.toISOString().substring(0,10) %></li>
+        <li class="list-group-item"><strong>Hari:</strong> <%= antri.hari %></li>
+        <li class="list-group-item"><strong>Jam:</strong> <%= antri.jam %></li>
+      </ul>
+      <a href="/antri" class="btn btn-secondary mt-3 w-100">Kembali ke Data Antri</a>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
