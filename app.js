@@ -76,11 +76,13 @@ app.post('/pasien/:no_rm/edit', PasienController.update);
 app.post('/pasien/:no_rm/delete', PasienController.delete);
 
 // === ROUTES UNTUK PEMBAYARAN ===
-app.get('/pembayaran', PembayaranController.index);  // Menampilkan daftar pembayaran
-app.get('/pembayaran/new', PembayaranController.createForm);  // Tampilkan form tambah pembayaranapp.post('/pembayaran', PembayaranController.create);  // Menambahkan pembayaran
-app.get('/pembayaran/:id/edit', PembayaranController.editForm);  // Form edit pembayaran
-app.post('/pembayaran/:id/edit', PembayaranController.update);  // Update pembayaran
-app.post('/pembayaran/:id/delete', PembayaranController.delete);  // Hapus pembayaran
+app.get('/pembayaran', PembayaranController.index);              // Menampilkan daftar pembayaran
+app.get('/pembayaran/new', PembayaranController.createForm);       // Tampilkan form tambah pembayaran
+app.post('/pembayaran', PembayaranController.create);              // Menambahkan pembayaran
+app.get('/pembayaran/:id/edit', PembayaranController.editForm);      // Form edit pembayaran
+app.post('/pembayaran/:id/edit', PembayaranController.update);       // Update pembayaran
+app.post('/pembayaran/:id/delete', PembayaranController.delete);     // Hapus pembayaran
+
 
 // === ROUTES UNTUK RESERVASI ===
 app.get('/reservasi', ReservasiController.index); 

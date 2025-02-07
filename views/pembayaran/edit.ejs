@@ -1,4 +1,3 @@
-<!-- views/pembayaran/edit.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,20 +9,37 @@
 <body>
   <div class="container mt-5">
     <h1 class="mb-4">Edit Pembayaran</h1>
-    <form action="/pembayaran/<%= pembayaran.id_pembayaran %>" method="POST">
+    <form action="/pembayaran/<%= pembayaran.id_pembayaran %>/edit" method="POST">
+      <!-- Jika menggunakan method override untuk PUT, pastikan middleware sudah dikonfigurasi -->
       <input type="hidden" name="_method" value="PUT">
+      
+      <!-- Field No Antrian menggunakan dropdown -->
       <div class="mb-3">
         <label for="no_antrian" class="form-label">No Antrian</label>
-        <input type="number" class="form-control" id="no_antrian" name="no_antrian" value="<%= pembayaran.no_antrian %>" required>
+        <select class="form-select" id="no_antrian" name="no_antrian" required>
+          <% if (antriList && antriList.length > 0) { %>
+            <% antriList.forEach(function(antrian) { %>
+              <option value="<%= antrian.no_antrian %>" 
+                <%= (antrian.no_antrian === pembayaran.no_antrian ? 'selected' : '') %>>
+                <%= antrian.no_antrian %>
+              </option>
+            <% }); %>
+          <% } else { %>
+            <option disabled>No antrian tersedia</option>
+          <% } %>
+        </select>
       </div>
+      
       <div class="mb-3">
         <label for="tipe_pembayaran" class="form-label">Tipe Pembayaran</label>
         <input type="text" class="form-control" id="tipe_pembayaran" name="tipe_pembayaran" value="<%= pembayaran.tipe_pembayaran %>" required>
       </div>
+      
       <div class="mb-3">
         <label for="nama_instansi" class="form-label">Nama Instansi</label>
         <input type="text" class="form-control" id="nama_instansi" name="nama_instansi" value="<%= pembayaran.nama_instansi %>">
       </div>
+      
       <button type="submit" class="btn btn-primary">Update</button>
       <a href="/pembayaran" class="btn btn-secondary ms-2">Kembali</a>
     </form>

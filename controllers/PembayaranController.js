@@ -37,19 +37,22 @@
     }
 
     // Edit pembayaran
-    static async editForm(req, res) {
-      try {
-        const id = req.params.id;
-        const results = await Pembayaran.getById(id);
-        if (results.length === 0) {
-          return res.status(404).send("Data tidak ditemukan");
-        }
-        res.render('pembayaran/edit', { pembayaran: results[0] });
-      } catch (err) {
-        console.error("Error retrieving pembayaran by ID:", err);
-        res.status(500).send("Error saat mengambil data pembayaran.");
-      }
+static async editForm(req, res) {
+  try {
+    const id = req.params.id;
+    const results = await Pembayaran.getById(id);
+    if (results.length === 0) {
+      return res.status(404).send("Data tidak ditemukan");
     }
+    // Ambil daftar nomor antrian dari database
+    const antriList = await Antri.getAll();
+    // Kirim data pembayaran dan daftar nomor antrian ke view
+    res.render('pembayaran/edit', { pembayaran: results[0], antriList });
+  } catch (err) {
+    console.error("Error retrieving pembayaran by ID:", err);
+    res.status(500).send("Error saat mengambil data pembayaran.");
+  }
+}
 
     // Update pembayaran
     static async update(req, res) {
