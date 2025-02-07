@@ -12,6 +12,17 @@ class Poli {
     return rows;
   }
 
+  // Hapus semua data poli yang mereferensikan pegawai tertentu
+  static async deleteByPegawaiId(id_peg) {
+    try {
+      const [result] = await pool.query('DELETE FROM poli WHERE id_peg = ?', [id_peg]);
+      return result;
+    } catch (error) {
+      console.error(`Error saat menghapus data poli dengan id_peg ${id_peg}:`, error);
+      throw error;
+    }
+  }
+
   // Ambil data poli berdasarkan ID beserta nama pegawai dan dokter yang terkait
   static async getById(id) {
     const sql = `

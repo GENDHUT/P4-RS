@@ -1,7 +1,7 @@
 // controllers/PegawaiController.js
 import Pegawai from '../models/Pegawai.js';
 import Dokter from '../models/Dokter.js';
-
+import Poli from '../models/Poli.js';
 
 class PegawaiController {
   // Tampilkan semua pegawai
@@ -15,15 +15,14 @@ class PegawaiController {
     }
   }
 
-  // Tampilkan detail pegawai berdasarkan ID
-  // Tampilkan detail pegawai berdasarkan ID beserta data dokter yang terhubung
+  // Tampilkan detail pegawai beserta data dokter terkait
   static async showPegawai(id) {
     try {
       const pegawai = await Pegawai.getById(id);
       if (pegawai) {
         // Ambil data dokter berdasarkan id_pegawai
         const dokterData = await Dokter.getByPegawaiId(id);
-        pegawai.dokters = dokterData; // Menambahkan properti dokters pada objek pegawai
+        pegawai.dokters = dokterData;
       }
       return pegawai;
     } catch (error) {
@@ -52,9 +51,12 @@ class PegawaiController {
     }
   }
 
-  // Hapus pegawai
+  // Hapus pegawai (dan hapus data poli yang terkait terlebih dahulu)
   static async removePegawai(id) {
     try {
+      // Hapus semua data poli yang terkait dengan pegawai ini
+      await Poli.deleteByPegawaiId(id);
+      // Kemudian hapus data pegawai
       await Pegawai.delete(id);
     } catch (error) {
       console.error(`Error saat menghapus pegawai dengan ID ${id}:`, error);
@@ -62,6 +64,5 @@ class PegawaiController {
     }
   }
 }
-
 
 export default PegawaiController;

@@ -1,3 +1,4 @@
+// index.js
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -11,7 +12,7 @@ import ReservasiController from './controllers/ReservasiController.js';
 import PoliController from './controllers/PoliController.js';
 import DokterController from './controllers/DokterController.js';
 import AntriController from './controllers/AntriController.js';
-import PembayaranController from './controllers/PembayaranController.js';  
+import PembayaranController from './controllers/PembayaranController.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -28,9 +29,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-/* ROUTES */
+/* ================= ROUTES ================= */
 
 // === ROUTES UNTUK PEGAWAI ===
+
 // Tampilkan daftar pegawai
 app.get('/', async (req, res) => {
   try {
@@ -66,6 +68,36 @@ app.get('/pegawai/:id', async (req, res) => {
   }
 });
 
+// Tampilkan form edit pegawai
+app.get('/pegawai/:id/edit', async (req, res) => {
+  try {
+    const pegawai = await PegawaiController.showPegawai(req.params.id);
+    res.render('pegawai/pegawai_edit', { pegawai });
+  } catch (error) {
+    res.status(500).send('Error saat mengambil data pegawai untuk edit.');
+  }
+});
+
+// Proses update pegawai
+app.post('/pegawai/:id/edit', async (req, res) => {
+  try {
+    await PegawaiController.editPegawai(req.params.id, req.body);
+    res.redirect(`/pegawai/${req.params.id}`);
+  } catch (error) {
+    res.status(500).send('Error saat memperbarui data pegawai.');
+  }
+});
+
+// Hapus pegawai
+app.post('/pegawai/:id/delete', async (req, res) => {
+  try {
+    await PegawaiController.removePegawai(req.params.id);
+    res.redirect('/');
+  } catch (error) {
+    res.status(500).send('Error saat menghapus pegawai.');
+  }
+});
+
 // === ROUTES UNTUK PASIEN ===
 app.get('/pasien', PasienController.index);
 app.get('/pasien/new', PasienController.newForm);
@@ -76,13 +108,12 @@ app.post('/pasien/:no_rm/edit', PasienController.update);
 app.post('/pasien/:no_rm/delete', PasienController.delete);
 
 // === ROUTES UNTUK PEMBAYARAN ===
-app.get('/pembayaran', PembayaranController.index);              // Menampilkan daftar pembayaran
-app.get('/pembayaran/new', PembayaranController.createForm);       // Tampilkan form tambah pembayaran
-app.post('/pembayaran', PembayaranController.create);              // Menambahkan pembayaran
-app.get('/pembayaran/:id/edit', PembayaranController.editForm);      // Form edit pembayaran
-app.post('/pembayaran/:id/edit', PembayaranController.update);       // Update pembayaran
-app.post('/pembayaran/:id/delete', PembayaranController.delete);     // Hapus pembayaran
-
+app.get('/pembayaran', PembayaranController.index);
+app.get('/pembayaran/new', PembayaranController.createForm);
+app.post('/pembayaran', PembayaranController.create);
+app.get('/pembayaran/:id/edit', PembayaranController.editForm);
+app.post('/pembayaran/:id/edit', PembayaranController.update);
+app.post('/pembayaran/:id/delete', PembayaranController.delete);
 
 // === ROUTES UNTUK RESERVASI ===
 app.get('/reservasi', ReservasiController.index); 
@@ -90,7 +121,7 @@ app.get('/reservasi/new', ReservasiController.newForm);
 app.post('/reservasi', ReservasiController.create);               
 app.get('/reservasi/:id/edit', ReservasiController.editForm);      
 app.post('/reservasi/:id/edit', ReservasiController.update);       
-app.post('/reservasi/:id/delete', ReservasiController.delete);     
+app.post('/reservasi/:id/delete', ReservasiController.delete);
 
 // === ROUTES UNTUK POLI ===
 app.get('/poli', PoliController.index);
